@@ -15,11 +15,11 @@ BOLD=$(tput bold)
 GREEN=$(tput setaf 2)
 NORMAL=$(tput sgr0)
 
-function version() {
+version() {
 	echo "STIG for Debian Compliance Checking Tools(v.$VERSION)"
 }
 
-function usage() {
+usage() {
 cat << EOF
 usage: $0 [options]
 
@@ -105,7 +105,7 @@ spinner(){
 
 HTML_OVERVIEW_LOG="$LOG"_overview.html
 
-function html_overview_gen_prologue() {
+html_overview_gen_prologue() {
         cat html/html_overview_template_head1.html > $HTML_OVERVIEW_LOG
         echo "STIG for Debian Compliance Checking $DATE" >>$HTML_OVERVIEW_LOG #HTML title
         cat html/html_overview_template_style.html >> $HTML_OVERVIEW_LOG
@@ -116,22 +116,22 @@ function html_overview_gen_prologue() {
         cat html/html_overview_template_body2.html >> $HTML_OVERVIEW_LOG
 }
 
-function html_overview_gen_middle() {
+html_overview_gen_middle() {
         cat html/html_overview_template_middle.html >> $HTML_OVERVIEW_LOG
 }
 
-function html_overview_gen_epilogue() {
+html_overview_gen_epilogue() {
         cat html/html_overview_template_footer.html >> $HTML_OVERVIEW_LOG
 }
 
-function html_overview_output() {
+html_overview_output() {
         echo '<tr><td data-title="ID">'"$RULE_ID"'</td>' >>$HTML_OVERVIEW_LOG
         echo '<td data-title="ID">'"$RULE_TITLE"'</td>' >>$HTML_OVERVIEW_LOG
         echo '<td data-title="ID">'"$LEVEL"'</td>' >>$HTML_OVERVIEW_LOG
         echo '<td data-title="ID">'"$STATUS"'</td></tr>' >>$HTML_OVERVIEW_LOG
 }
 
-function html_overview_manual_output() {
+html_overview_manual_output() {
         echo '<tr><td data-title="ID">'"$RULE_ID"'</td>' >>$HTML_OVERVIEW_LOG
         echo '<td data-title="ID">'"$RULE_TITLE"'</td>' >>$HTML_OVERVIEW_LOG
         echo '<td data-title="ID">'"$LEVEL"'</td></tr>' >>$HTML_OVERVIEW_LOG
@@ -139,7 +139,7 @@ function html_overview_manual_output() {
 
 HTML_DETAILS_LOG="$LOG"_details.html
 
-function html_details_gen_prologue() {
+html_details_gen_prologue() {
         cat html/html_details_template_head1.html > $HTML_DETAILS_LOG
         echo "STIG for Debian Compliance Checking  $DATE" >>$HTML_DETAILS_LOG #HTML title
         cat html/html_details_template_style.html >> $HTML_DETAILS_LOG
@@ -150,15 +150,15 @@ function html_details_gen_prologue() {
         cat html/html_details_template_body2.html >> $HTML_DETAILS_LOG
 }
 
-function html_details_gen_middle() {
+html_details_gen_middle() {
         cat html/html_details_template_middle.html >> $HTML_DETAILS_LOG
 }
 
-function html_details_gen_epilogue() {
+html_details_gen_epilogue() {
         cat html/html_details_template_footer.html >> $HTML_DETAILS_LOG
 }
 
-function html_details_output() {
+html_details_output() {
         echo '<section><font style="font-weight:bold;">Rule Title: </font>'"$RULE_TITLE"'<br />' >>$HTML_DETAILS_LOG
         echo '<font style="font-weight:bold;">Rule ID: </font>'"$RULE_ID"'<br />'>>$HTML_DETAILS_LOG
         echo '<font style="font-weight:bold;">Status: </font>'"$STATUS"'<br />' >>$HTML_DETAILS_LOG
@@ -167,7 +167,7 @@ function html_details_output() {
         echo '<font style="font-weight:bold;">Fix Method: </font>'"$(echo "$FIX" | sed -e 's/\\n\\n/<br \/>/g' -e 's/\\n/<br \/>/g')"'<br /></section>' >>$HTML_DETAILS_LOG
 }
 
-function html_details_manual_output() {
+html_details_manual_output() {
         echo '<section><font style="font-weight:bold;">Rule Title: </font>'"$RULE_TITLE"'<br />' >>$HTML_DETAILS_LOG
         echo '<font style="font-weight:bold;">Rule ID: </font>'"$RULE_ID"'<br />'>>$HTML_DETAILS_LOG
         echo '<font style="font-weight:bold;">Description: </font>'"$(echo "$QUESTION_DESC" | sed -e 's/\\n\\n/<br \/>/g' -e 's/\\n/<br \/>/g')"'<br />' >>$HTML_DETAILS_LOG
@@ -175,7 +175,7 @@ function html_details_manual_output() {
         echo '<font style="font-weight:bold;">Fix Method: </font>'"$(echo "$FIX" | sed -e 's/\\n\\n/<br \/>/g' -e 's/\\n/<br \/>/g')"'<br /></section>' >>$HTML_DETAILS_LOG
 }
 
-function ascii_output() {
+ascii_output() {
 	printf "\n---------------------------------------\n"
 	echo "Rule Title: ""$RULE_TITLE"
 	echo "Rule ID: ""$RULE_ID"
@@ -186,7 +186,7 @@ function ascii_output() {
 	printf "\n"
 }
 
-function ascii_manual_output() {
+ascii_manual_output() {
         echo "Rule Title: ""$RULE_TITLE"
         echo "Rule ID: ""$RULE_ID"
         echo "Description: ""$QUESTION_DESC"
@@ -197,7 +197,7 @@ function ascii_manual_output() {
 
 ASCII_LOG="$LOG"-ascii.log
 
-function catcolor_output() {
+catcolor_output() {
 
         RED=$(tput setaf 1)
         BOLD=$(tput bold)
@@ -213,7 +213,7 @@ function catcolor_output() {
 	printf "\n"
 }
 
-function catcolor_manual_output() {
+catcolor_manual_output() {
 
         RED=$(tput setaf 1)
         BOLD=$(tput bold)
@@ -229,14 +229,14 @@ function catcolor_manual_output() {
 }
 
 
-function on_screen_output() {
+on_screen_output() {
        printf "Checking %s\n" "$RULE_TITLE"
 }
 
 CATCOLOR_LOG="$LOG"-catcolor.log
 
 
-function output() {
+output() {
 	RED=$(tput setaf 1)
 	GREEN=$(tput setaf 2)
         NORMAL=$(tput sgr0)
@@ -291,17 +291,17 @@ function output() {
 		if [ $EXIT_STATUS -eq 0 ];then
 			printf "%s %s\n"  "$GREEN$BOLD[ PASS ]$NORMAL" "$RULE_TITLE"
 	        	STATUS="$GREEN$BOLD""PASS""$NORMAL"
-			((SUCCESS_FLAG++))
+#			((SUCCESS_FLAG++))
 		else
 			printf "%s %s\n"  "$RED$BOLD[ FAIL ]$NORMAL" "$RULE_TITLE"
 			STATUS="$RED$BOLD""FAILED""$NORMAL"
-			((FAIL_FLAG++))
+#			((FAIL_FLAG++))
 		fi
         	catcolor_output >> $CATCOLOR_LOG
 	fi
 }
 
-function manual_output() {
+manual_output() {
 	
 	if [ -z "$1" ];then
 		return
